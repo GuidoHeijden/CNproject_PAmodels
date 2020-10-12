@@ -326,6 +326,5 @@ def hofstad_PA_b(G, delta, m, t, t_stop=10, verbose=True):
     else:
         return hofstad_PA_b(G, delta, m, t+1, t_stop=t_stop, verbose=verbose)
 
-
 main()
 visualise_dot()
