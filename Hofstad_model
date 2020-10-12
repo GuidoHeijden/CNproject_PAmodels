@@ -15,10 +15,13 @@ def main():
     delta          = float(input('Enter the value of delta\n'))
     m              = int(input('Enter the value of m\n'))
     num_iterations = int(input('Enter the number of iterations, i.e. at what t to stop\n'))
-    verbosity      = str(input("Do you want to see the model grow per iteration? (T | F)\n"))
+    verbosity      = int(input("How verbose do you want the simulation to be? (0 | 1 | 2)\n"
+                               "---- 0 : only show and save final graph\n"
+                               "---- 1 : show probability distribution and selected vertices per iteration\n"
+                               "---- 2 : show graph on each iteration (1.5 second breaks between iterations)\n"))
 
     # Throw exceptions for incorrect input
-    if verbosity != "T" and verbosity != "F":
+    if verbosity < 0 or verbosity > 2:
         raise Exception("Enter a correct value for verbosity!")
     if m < 0:
         raise Exception("m should be greater than zero!")
@@ -26,12 +29,6 @@ def main():
         raise Exception("delta should be greater or equal to m!\ndelta: " + str(delta) + "\nm: " + str(m))
     if num_iterations < 2:
         raise Exception("There should be at least two iterations!")
-
-    # Change the verbosity variable to bool
-    if verbosity == "T":
-        verbosity = True
-    else:
-        verbosity = False
 
     # Run the correct model
     if which_model == "a":
@@ -234,7 +231,7 @@ def hofstad_PA_start(m=1):
         G.add_edge(1, 1)
     return G
 
-# TODO : fix this function since G.degree does not give the correct degree for self-loops
+
 def hofstad_PA(G, delta, m, t, t_stop=10, verbose=True):
     '''
     Recursively simulate a Hofstad Preferential Attachment graph where at each timestep t, a single vertex is added
@@ -252,17 +249,22 @@ def hofstad_PA(G, delta, m, t, t_stop=10, verbose=True):
     '''
     P = []
     for n in G.nodes():
-        P.append( (G.degree(n) + delta) / (t*(2 + delta) + (1 + delta)) )
+        P.append( (G.degree(n) + delta) / (t*(2*m + delta) + (m + delta)) )
     G.add_node(t+1)
-    P.append( (1 + delta) / (t*(2 + delta) + (1 + delta)) )
+    P.append( (m + delta) / (t*(2*m + delta) + (m + delta)) )
+    second_nodes = []
     for i in range(m):
         second_node = np.random.choice(range(1, t+2), 1, P)[0]
         G.add_edge(t+1, second_node)
+        second_nodes.append(second_node)
 
-    if verbose:
+    if verbose >= 1:
+        print("Iteration t =", t)
         print("Vertices and probability of attachment:\n", {n : p for n, p in zip(range(1, t + 2), P)})
-        print("Randomly picked vertex:", second_node)
+        print("Randomly picked vertex/vertices for attachment:", second_nodes)
         print("Sum of probability distribution = ", sum(P))
+        print()
+    if verbose >= 2:
         display_graph(G, save_file="")
         time.sleep(1.5)
     if t >= t_stop:
@@ -302,16 +304,21 @@ def hofstad_PA_b(G, delta, m, t, t_stop=10, verbose=True):
     '''
     P = []
     for n in G.nodes():
-        P.append( (G.degree(n) + delta) / t*(2 + delta) )
+        P.append( (G.degree(n) + delta) / t*(2*m + delta) )
     G.add_node(t+1)
+    second_nodes = []  # used for verbose output
     for i in range(m):
         second_node = np.random.choice(range(1, t+1), 1, P)[0]
         G.add_edge(t+1, second_node)
+        second_nodes.append(second_node)
 
-    if verbose:
+    if verbose >= 1:
+        print("Iteration t =", t)
         print("Vertices and probability of attachment:\n", {n : p for n, p in zip(range(1, t + 2), P)})
-        print("Randomly picked vertex:", second_node)
+        print("Randomly picked vertex/vertices for attachment:", second_nodes)
         print("Sum of probability distribution = ", sum(P))
+        print()
+    if verbose >= 2:
         display_graph(G, save_file="")
         time.sleep(1.5)
     if t >= t_stop:
