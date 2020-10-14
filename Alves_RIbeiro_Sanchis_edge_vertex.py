@@ -48,6 +48,6 @@ def PA_model2(G, m, p, t, t_stop, num_iterations):
                     second_node = np.random.choice(range(1, t+2), 1, ProbDist)[0]
                     G.add_edge(first_node, second_node)
                     ProbDists.append(ProbDist)
+                    first_nodes.append(first_node)
                     second_nodes.append(second_node)
     return G
-    return
