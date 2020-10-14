@@ -1,16 +1,15 @@
 from scipy.stats import bernoulli
 
-def PA_model2(G, m, t_stop, num_iterations):
+def PA_model2(G, m, p, t_stop, num_iterations):
     '''
     Recursively simulate a Preferential Attachment model using the Hofstad model as basis. A decision rule is added,
     which decides whether we use a vertex-step or an edge-step. The vertex step adds a new vertex to G, selects another
     vertex with probability P (= degree of u/sum of all degrees in G) and adds an edge between these vertices. The edge-
     step selects two vertices from G with the same probability P for each vertex and adds an edge between these.
 
-
     :param G:       The Graph that is used for simulating Hofstad's model
-    :param delta:   An affine attachment rule parameter
     :param m:       Number of edges that are attached to a new vertex
+    :param p:       Bernouilli probability
     :param t_stop:  The timestep after which to stop the simulation
     :param verbose: Whether to print a verbose output of the simulation, including visualising graph G
     :return:
@@ -18,7 +17,6 @@ def PA_model2(G, m, t_stop, num_iterations):
 
     # Create list with Bernoulli random variables 0 and 1 based on probability p
     Z = []
-    p = 2 - np.sqrt(3)
     Z.append(bernoulli.rvs(p, size=num_iterations))
 
     # Determine whether we make edge-step or vertex-step
