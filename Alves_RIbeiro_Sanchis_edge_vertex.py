@@ -50,3 +50,4 @@ def PA_model2(G, m, p, t_stop, num_iterations):
                     G.add_edge(first_node, second_node)
                     ProbDists.append(ProbDist)
                     second_nodes.append(second_node)
+    return
