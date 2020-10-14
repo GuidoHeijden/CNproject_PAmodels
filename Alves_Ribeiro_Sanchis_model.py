@@ -54,7 +54,7 @@ def model_edgestepfunc(G, delta, m, t, t_stop=10, edgestep=True)
 
     for t in range (t,t_stop) :
         p=edgestep(t)
-        PA_model2(G, m, p, t_stop, num_iterations)
+        PA_model2(G, m, p, t, t_stop, num_iterations)
 
     return G
 
