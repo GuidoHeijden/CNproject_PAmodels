@@ -248,22 +248,30 @@ def hofstad_PA(G, delta, m, t, t_stop=10, verbose=True):
     :return:
     '''
     for t in range(t, t_stop):
-        P = []
-        for n in G.nodes():
-            P.append( (G.degree(n) + delta) / (t*(2*m + delta) + (m + delta)) )
-        G.add_node(t+1)
-        P.append( (m + delta) / (t*(2*m + delta) + (m + delta)) )
+        ProbDists = []
         second_nodes = []
         for i in range(m):
-            second_node = np.random.choice(range(1, t+2), 1, P)[0]
+            ProbDist = []
+            for n in G.nodes():
+                ProbDist.append((G.degree(n) + delta) / (t * (2 * m + delta) + (m + delta + 2 * i)))
+            if i == 0:
+                ProbDist.append( (m + delta) / (t*(2*m + delta) + (m + delta)) )
+                G.add_node(t + 1)
+            else:
+                ProbDist.pop()
+                ProbDist.append( (m + G.degree(n) + delta) / (t*(2*m + delta) + (m + delta + 2*i)) )
+            second_node = np.random.choice(range(1, t+2), 1, ProbDist)[0]
             G.add_edge(t+1, second_node)
+            ProbDists.append(ProbDist)
             second_nodes.append(second_node)
 
         if verbose >= 1:
             print("Iteration t =", t)
-            print("Vertices and probability of attachment:\n", {n : p for n, p in zip(range(1, t + 2), P)})
+            print("Vertices and probability of attachment:")
+            for i, P in enumerate(ProbDists):
+                print(i, {n : p for n, p in zip(range(1, t + 2), P)})
+                print("Sum of probability distribution = ", sum(P), "| selected vertex :", second_nodes[i])
             print("Randomly picked vertex/vertices for attachment:", second_nodes)
-            print("Sum of probability distribution = ", sum(P))
             print()
         if verbose >= 2:
             display_graph(G, save_file="")
@@ -287,7 +295,6 @@ def hofstad_PA_start_b(m=1):
         G.add_edge(2, 1)
     return G
 
-# TODO : fix this function since G.degree does not give the correct degree for self-loops (does that also matter here?)
 def hofstad_PA_b(G, delta, m, t, t_stop=10, verbose=True):
     '''
     Recursively simulate a Hofstad Preferential Attachment graph where at each timestep t, a single vertex is added
@@ -305,21 +312,28 @@ def hofstad_PA_b(G, delta, m, t, t_stop=10, verbose=True):
     :return:
     '''
     for t in range(t, t_stop):
-        P = []
-        for n in G.nodes():
-            P.append( (G.degree(n) + delta) / (t*(2*m + delta)) )
-        G.add_node(t+1)
-        second_nodes = []  # used for verbose output
+        ProbDists = []
+        second_nodes = []
         for i in range(m):
-            second_node = np.random.choice(range(1, t+1), 1, P)[0]
+            ProbDist = []
+            for n in G.nodes():
+                ProbDist.append( (G.degree(n) + delta) / (t*(2*m + delta) + i) )
+            if i == 0:
+                G.add_node(t + 1)
+            else:
+                ProbDist.pop()
+            second_node = np.random.choice(range(1, t+1), 1, ProbDist)[0]
             G.add_edge(t+1, second_node)
             second_nodes.append(second_node)
+            ProbDists.append(ProbDist)
 
         if verbose >= 1:
             print("Iteration t =", t)
-            print("Vertices and probability of attachment:\n", {n : p for n, p in zip(range(1, t + 2), P)})
+            print("Vertices and probability of attachment:")
+            for i, P in enumerate(ProbDists):
+                print(i, {n : p for n, p in zip(range(1, t + 1), P)})
+                print("Sum of probability distribution = ", sum(P), "| selected vertex :", second_nodes[i])
             print("Randomly picked vertex/vertices for attachment:", second_nodes)
-            print("Sum of probability distribution = ", sum(P))
             print()
         if verbose >= 2:
             display_graph(G, save_file="")
