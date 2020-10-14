@@ -42,7 +42,7 @@ def main():
     display_graph(G)
 
 
-def display_graph(G, save_file=r"C:\Users\Guido vd Heijden\Documents\School\Master - year 1 - 1a\Complex Networks\hofstad_PA.dot"):
+def display_graph(G, save_file=r"C:\Users\Mariya Karlashchuk\Documents\Studie\Complex Networks\Project\hofstad_PA.dot"):
     '''
     This function displays a graph G using the Kamada-Kawai layout. Plotly is used for visualisation, but it is possible
     to save a .dot file of the graph. Self-loops and multiple edges between the same two vertices can be displayed
@@ -206,7 +206,7 @@ def display_graph(G, save_file=r"C:\Users\Guido vd Heijden\Documents\School\Mast
         nx.drawing.nx_pydot.write_dot(G, save_file)
 
 
-def visualise_dot(path=r"C:\Users\Guido vd Heijden\Documents\School\Master - year 1 - 1a\Complex Networks\hofstad_PA.dot"):
+def visualise_dot(path=r"C:\Users\Mariya Karlashchuk\Documents\Studie\Complex Networks\Project\hofstad_PA.dot-"):
     '''
     Make a pdf from the .dot file and open it.
 
@@ -325,6 +325,16 @@ def hofstad_PA_b(G, delta, m, t, t_stop=10, verbose=True):
             display_graph(G, save_file="")
             time.sleep(1.5)
     return G
+
+# Define edge step functions
+def edgeStepFun1(t): # 1/linear function
+    return 1 / (t ^ 1.01)
+
+def edgeStepFun2(t): # 1/log-squared function
+    return 1 / (np.log(t)**2)
+
+def edgeStepFun3(t): # 1/log-function
+    return 1 / log(t)
 
 main()
 visualise_dot()
