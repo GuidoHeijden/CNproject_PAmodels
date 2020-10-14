@@ -1,6 +1,6 @@
 from scipy.stats import bernoulli
 
-def PA_model2(G, m, p, t_stop, num_iterations):
+def PA_model2(G, m, p, t, t_stop, num_iterations):
     '''
     Recursively simulate a Preferential Attachment model using the Hofstad model as basis. A decision rule is added,
     which decides whether we use a vertex-step or an edge-step. The vertex step adds a new vertex to G, selects another
@@ -24,7 +24,7 @@ def PA_model2(G, m, p, t_stop, num_iterations):
     second_nodes = []
     ProbabilityVertexPick = []
 
-    for t in range(2, t_stop):
+    for t in range(t, t_stop):
         for l in range(m):
             for i in Z:
                 if i==1:
@@ -49,4 +49,5 @@ def PA_model2(G, m, p, t_stop, num_iterations):
                     G.add_edge(first_node, second_node)
                     ProbDists.append(ProbDist)
                     second_nodes.append(second_node)
+    return G
     return
