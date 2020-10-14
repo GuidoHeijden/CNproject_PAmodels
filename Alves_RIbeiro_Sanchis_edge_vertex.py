@@ -11,7 +11,6 @@ def PA_model2(G, m, p, t_stop, num_iterations):
     :param m:       Number of edges that are attached to a new vertex
     :param p:       Bernouilli probability
     :param t_stop:  The timestep after which to stop the simulation
-    :param verbose: Whether to print a verbose output of the simulation, including visualising graph G
     :return:
     '''
 
