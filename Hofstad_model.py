@@ -42,7 +42,7 @@ def main():
     display_graph(G)
 
 
-def display_graph(G, save_file=r"C:\Users\Mariya Karlashchuk\Documents\Studie\Complex Networks\Project\hofstad_PA.dot"):
+def display_graph(G, save_file=r".\hofstad_PA.dot"):
     '''
     This function displays a graph G using the Kamada-Kawai layout. Plotly is used for visualisation, but it is possible
     to save a .dot file of the graph. Self-loops and multiple edges between the same two vertices can be displayed
@@ -206,7 +206,7 @@ def display_graph(G, save_file=r"C:\Users\Mariya Karlashchuk\Documents\Studie\Co
         nx.drawing.nx_pydot.write_dot(G, save_file)
 
 
-def visualise_dot(path=r"C:\Users\Mariya Karlashchuk\Documents\Studie\Complex Networks\Project\hofstad_PA.dot-"):
+def visualise_dot(path=r".\hofstad_PA.dot"):
     '''
     Make a pdf from the .dot file and open it.
 
