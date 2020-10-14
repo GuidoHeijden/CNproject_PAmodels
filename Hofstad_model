@@ -36,7 +36,7 @@ def main():
         G = hofstad_PA(G, delta, m, t=1, t_stop=num_iterations, verbose=verbosity)
     elif which_model == "b":
         G = hofstad_PA_start_b(m)
-        G = hofstad_PA_b(G, delta, m, t=1, t_stop=num_iterations, verbose=verbosity)
+        G = hofstad_PA_b(G, delta, m, t=2, t_stop=num_iterations, verbose=verbosity)
     else:
         raise Exception("Enter a correct model version!")
     display_graph(G)
@@ -247,30 +247,28 @@ def hofstad_PA(G, delta, m, t, t_stop=10, verbose=True):
     :param verbose: Whether to print a verbose output of the simulation, including visualising graph G
     :return:
     '''
-    P = []
-    for n in G.nodes():
-        P.append( (G.degree(n) + delta) / (t*(2*m + delta) + (m + delta)) )
-    G.add_node(t+1)
-    P.append( (m + delta) / (t*(2*m + delta) + (m + delta)) )
-    second_nodes = []
-    for i in range(m):
-        second_node = np.random.choice(range(1, t+2), 1, P)[0]
-        G.add_edge(t+1, second_node)
-        second_nodes.append(second_node)
+    for t in range(t, t_stop):
+        P = []
+        for n in G.nodes():
+            P.append( (G.degree(n) + delta) / (t*(2*m + delta) + (m + delta)) )
+        G.add_node(t+1)
+        P.append( (m + delta) / (t*(2*m + delta) + (m + delta)) )
+        second_nodes = []
+        for i in range(m):
+            second_node = np.random.choice(range(1, t+2), 1, P)[0]
+            G.add_edge(t+1, second_node)
+            second_nodes.append(second_node)
 
-    if verbose >= 1:
-        print("Iteration t =", t)
-        print("Vertices and probability of attachment:\n", {n : p for n, p in zip(range(1, t + 2), P)})
-        print("Randomly picked vertex/vertices for attachment:", second_nodes)
-        print("Sum of probability distribution = ", sum(P))
-        print()
-    if verbose >= 2:
-        display_graph(G, save_file="")
-        time.sleep(1.5)
-    if t >= t_stop:
-        return G
-    else:
-        return hofstad_PA(G, delta, m, t+1, t_stop=t_stop, verbose=verbose)
+        if verbose >= 1:
+            print("Iteration t =", t)
+            print("Vertices and probability of attachment:\n", {n : p for n, p in zip(range(1, t + 2), P)})
+            print("Randomly picked vertex/vertices for attachment:", second_nodes)
+            print("Sum of probability distribution = ", sum(P))
+            print()
+        if verbose >= 2:
+            display_graph(G, save_file="")
+            time.sleep(1.5)
+    return G
 
 
 def hofstad_PA_start_b(m=1):
@@ -283,6 +281,10 @@ def hofstad_PA_start_b(m=1):
     '''
     G = nx.MultiGraph()
     G.add_node(1)
+    G.add_node(2)
+    for i in range(m):
+        G.add_edge(1, 2)
+        G.add_edge(2, 1)
     return G
 
 # TODO : fix this function since G.degree does not give the correct degree for self-loops (does that also matter here?)
@@ -302,29 +304,27 @@ def hofstad_PA_b(G, delta, m, t, t_stop=10, verbose=True):
     :param verbose: Whether to print a verbose output of the simulation, including visualising graph G
     :return:
     '''
-    P = []
-    for n in G.nodes():
-        P.append( (G.degree(n) + delta) / t*(2*m + delta) )
-    G.add_node(t+1)
-    second_nodes = []  # used for verbose output
-    for i in range(m):
-        second_node = np.random.choice(range(1, t+1), 1, P)[0]
-        G.add_edge(t+1, second_node)
-        second_nodes.append(second_node)
+    for t in range(t, t_stop):
+        P = []
+        for n in G.nodes():
+            P.append( (G.degree(n) + delta) / (t*(2*m + delta)) )
+        G.add_node(t+1)
+        second_nodes = []  # used for verbose output
+        for i in range(m):
+            second_node = np.random.choice(range(1, t+1), 1, P)[0]
+            G.add_edge(t+1, second_node)
+            second_nodes.append(second_node)
 
-    if verbose >= 1:
-        print("Iteration t =", t)
-        print("Vertices and probability of attachment:\n", {n : p for n, p in zip(range(1, t + 2), P)})
-        print("Randomly picked vertex/vertices for attachment:", second_nodes)
-        print("Sum of probability distribution = ", sum(P))
-        print()
-    if verbose >= 2:
-        display_graph(G, save_file="")
-        time.sleep(1.5)
-    if t >= t_stop:
-        return G
-    else:
-        return hofstad_PA_b(G, delta, m, t+1, t_stop=t_stop, verbose=verbose)
+        if verbose >= 1:
+            print("Iteration t =", t)
+            print("Vertices and probability of attachment:\n", {n : p for n, p in zip(range(1, t + 2), P)})
+            print("Randomly picked vertex/vertices for attachment:", second_nodes)
+            print("Sum of probability distribution = ", sum(P))
+            print()
+        if verbose >= 2:
+            display_graph(G, save_file="")
+            time.sleep(1.5)
+    return G
 
 main()
 visualise_dot()
