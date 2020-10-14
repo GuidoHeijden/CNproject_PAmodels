@@ -1,5 +1,6 @@
 import networkx as nx
 import graphviz as gv
+from scipy.stats import bernoulli
 import pydot as pyd
 import plotly.graph_objects as go
 import time
