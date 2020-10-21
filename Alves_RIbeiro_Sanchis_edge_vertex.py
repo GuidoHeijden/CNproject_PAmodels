@@ -1,8 +1,6 @@
 import time
-
 from scipy.stats import bernoulli
 import numpy as np
-
 import visualisation
 
 def PA_model2(G, m, p, t, t_stop=10, verbose=0):
@@ -62,11 +60,11 @@ def PA_model2(G, m, p, t, t_stop=10, verbose=0):
             edge_steps_taken += 1
 
         if verbose >= 1:
+            print("Iteration t =", t)
             if Z[t] == 1:
                 print("Vertex step taken.")
             elif Z[t] == 0:
                 print("Edge step taken.")
-            print("Iteration t =", t)
             print("Vertices and probability of attachment:")
             for i, P in enumerate(ProbDists):
                 print(i, {n : p for n, p in zip(range(1, t + 1), P)})

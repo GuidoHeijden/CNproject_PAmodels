@@ -52,8 +52,8 @@ def choosePAmodel():
 
     elif whichPA == 2:
         edgestepfunction = int(input("Which edgestep function do you want to use? (1 | 2 | 3)\n"
-                                     "---- 0 : 1 / (t ^ 1.01)\n"
-                                     "---- 1 : 1 / (np.log(t)*2)\n"
+                                     "---- 0 : 1 / (t^1.01)\n"
+                                     "---- 1 : 1 / (log(t)^2)\n"
                                      "---- 2 : 1 / log(t)\n "))
         # Throw exceptions for incorrect input
         if edgestepfunction < 0 or edgestepfunction > 2:
@@ -61,14 +61,14 @@ def choosePAmodel():
 
         # Run the model with the correct edgestepfunction
         if edgestepfunction == 0:
-            G = hofstad_PA_start(m)
-            G = model_edgestepfunc(G, delta, m, t=1, t_stop=num_iterations, edgestep=edgeStepFun1)
+            G = hofstad_PA_start_b(m)
+            G = model_edgestepfunc(G, m, edgeStepFun1, t=2, t_stop=num_iterations, verbose=verbosity)
         elif edgestepfunction == 1:
-            G = hofstad_PA_start(m)
-            G = model_edgestepfunc(G, delta, m, t=1, t_stop=num_iterations, edgestep=edgeStepFun2)
+            G = hofstad_PA_start_b(m)
+            G = model_edgestepfunc(G, m, edgeStepFun2, t=2, t_stop=num_iterations, verbose=verbosity)
         elif edgestepfunction == 2:
-            G = hofstad_PA_start(m)
-            G = model_edgestepfunc(G, delta, m, t=1, t_stop=num_iterations, edgestep=edgeStepFun3)
+            G = hofstad_PA_start_b(m)
+            G = model_edgestepfunc(G, m, edgeStepFun3, t=2, t_stop=num_iterations, verbose=verbosity)
         else:
             raise Exception("Enter a correct model version!")
     else:
