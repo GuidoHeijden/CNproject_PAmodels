@@ -53,6 +53,7 @@ def get_all_distances(G):
             if v_2 <= v_1:
                 continue
             distances[(v_1, v_2)] = nx.shortest_path_length(G, source=v_1, target=v_2)
+            nx.all_pairs_shortest_path_length()
     return distances
 
 

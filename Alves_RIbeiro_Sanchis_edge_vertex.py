@@ -4,8 +4,6 @@ from scipy.stats import bernoulli
 import numpy as np
 
 import visualisation
-from Hofstad_model import hofstad_PA_start_b
-
 
 def PA_model2(G, m, p, t, t_stop=10, verbose=0):
     '''
@@ -42,7 +40,7 @@ def PA_model2(G, m, p, t, t_stop=10, verbose=0):
                     G.add_node(t + 1)
                 else:
                     ProbabilityVertexPick.pop()
-                second_node = np.random.choice(range(1, t+1-edge_steps_taken), 1, ProbabilityVertexPick)[0]
+                second_node = np.random.choice([n for n in G.nodes if n != t+1], 1, ProbabilityVertexPick)[0]
                 G.add_edge(t+1, second_node)
                 ProbDists.append(ProbabilityVertexPick)
                 second_nodes.append(second_node)
@@ -53,10 +51,10 @@ def PA_model2(G, m, p, t, t_stop=10, verbose=0):
                 sum_degrees = 2*t*m + 2*i
                 for j in G.nodes():
                     ProbabilityVertexPick.append(G.degree(j) / sum_degrees)
-                first_node = np.random.choice(range(1, t+1-edge_steps_taken), 1, ProbabilityVertexPick)[0]
-                second_node = np.random.choice(range(1, t+1-edge_steps_taken), 1, ProbabilityVertexPick)[0]
+                first_node = np.random.choice(G.nodes, 1, ProbabilityVertexPick)[0]
+                second_node = np.random.choice(G.nodes, 1, ProbabilityVertexPick)[0]
                 while first_node == second_node:
-                    second_node = np.random.choice(range(1, t+1-edge_steps_taken), 1, ProbabilityVertexPick)[0]
+                    second_node = np.random.choice(G.nodes, 1, ProbabilityVertexPick)[0]
                 G.add_edge(first_node, second_node)
                 ProbDists.append(ProbabilityVertexPick)
                 first_nodes.append(first_node)
