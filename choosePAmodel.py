@@ -3,7 +3,7 @@ import time
 import numpy as np
 import visualisation
 from Alves_RIbeiro_Sanchis_edge_vertex import PA_model2
-from Alves_Ribeiro_Sanchis_model import model_edgestepfunc
+from Alves_Ribeiro_Sanchis_model import model_edgestepfunc, edgeStepFun1, edgeStepFun2, edgeStepFun3
 from Hofstad_model import hofstad_PA_start, hofstad_PA, hofstad_PA_start_b, hofstad_PA_b
 
 
@@ -47,26 +47,28 @@ def choosePAmodel():
         p = float(input('Enter the value of probability of choosing an edge-step\n'))
         if p <= 0 or p >= 1:
             raise Exception("Enter a correct value for p between 0 and 1!")
-        G = PA_model2(G, m, p, t=1, t_stop=num_iterations)
+        G = hofstad_PA_start_b(m)
+        G = PA_model2(G, m, p, t=2, t_stop=num_iterations)
     elif whichPA == "2":
         edgestepfunction = int(input("Which edgestep function do you want to use? (1 | 2 | 3)\n"
                                      "---- 0 : 1 / (t ^ 1.01)\n"
                                      "---- 1 : 1 / (np.log(t)*2)\n"
-                                     "---- 2 : 1 / log(t)\n ")
+                                     "---- 2 : 1 / log(t)\n "))
         # Throw exceptions for incorrect input
         if edgestepfunction < 0 or edgestepfunction > 2:
             raise Exception("Enter a correct value for edgestepfunction!")
+
         # Run the model with the correct edgestepfunction
-        if edgestepfunction == "1":
+        if edgestepfunction == 0:
             G = hofstad_PA_start(m)
-            G = model_edgestepfunc(G, delta, m, t=1, t_stop=num_iterations, edgestep=edgeStepFun))
-            elif which_model == "2":
+            G = model_edgestepfunc(G, delta, m, t=1, t_stop=num_iterations, edgestep=edgeStepFun1)
+        elif edgestepfunction == 1:
             G = hofstad_PA_start(m)
-            G = model_edgestepfunc(G, delta, m, t=1, t_stop=num_iterations, edgestep=edgestepFun2)
-            elif which_model == "3":
+            G = model_edgestepfunc(G, delta, m, t=1, t_stop=num_iterations, edgestep=edgeStepFun2)
+        elif edgestepfunction == 2:
             G = hofstad_PA_start(m)
-            G = model_edgestepfunc(G, delta, m, t=1, t_stop=num_iterations, edgestep=edgestepFun3)
-            else:
+            G = model_edgestepfunc(G, delta, m, t=1, t_stop=num_iterations, edgestep=edgeStepFun3)
+        else:
             raise Exception("Enter a correct model version!")
     else:
         raise Exception("Enter a correct model version!")
@@ -75,4 +77,5 @@ def choosePAmodel():
 # To run this model, uncomment the following:
 
 choosePAmodel()
+
 visualisation.visualise_dot()
