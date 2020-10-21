@@ -43,13 +43,14 @@ def choosePAmodel():
         else:
             raise Exception("Enter a correct model version!")
 
-    elif whichPA == "1":
+    elif whichPA == 1:
         p = float(input('Enter the value of probability of choosing an edge-step\n'))
         if p <= 0 or p >= 1:
             raise Exception("Enter a correct value for p between 0 and 1!")
         G = hofstad_PA_start_b(m)
-        G = PA_model2(G, m, p, t=2, t_stop=num_iterations)
-    elif whichPA == "2":
+        G = PA_model2(G, m, p, t=2, t_stop=num_iterations, verbose=verbosity)
+
+    elif whichPA == 2:
         edgestepfunction = int(input("Which edgestep function do you want to use? (1 | 2 | 3)\n"
                                      "---- 0 : 1 / (t ^ 1.01)\n"
                                      "---- 1 : 1 / (np.log(t)*2)\n"

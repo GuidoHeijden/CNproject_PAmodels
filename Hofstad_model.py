@@ -19,7 +19,7 @@ def hofstad_PA_start(m=1):
     return G
 
 
-def hofstad_PA(G, delta, m, t, t_stop=10, verbose=True):
+def hofstad_PA(G, delta, m, t, t_stop=10, verbose=0):
     '''
     Recursively simulate a Hofstad Preferential Attachment graph where at each timestep t, a single vertex is added
     with m edges. The vertex/vertices that these/this edge(s) attach to are defined by probability distribution P, which
@@ -82,7 +82,7 @@ def hofstad_PA_start_b(m=1):
         G.add_edge(2, 1)
     return G
 
-def hofstad_PA_b(G, delta, m, t, t_stop=10, verbose=True):
+def hofstad_PA_b(G, delta, m, t, t_stop=10, verbose=0):
     '''
     Recursively simulate a Hofstad Preferential Attachment graph where at each timestep t, a single vertex is added
     with m edges. The vertex/vertices that these/this edge(s) attach to are defined by probability distribution P, which
