@@ -1,12 +1,13 @@
 import networkx as nx
 import time
 import numpy as np
-
 import visualisation
+from Alves_RIbeiro_Sanchis_edge_vertex import PA_model2
+from Alves_Ribeiro_Sanchis_model import model_edgestepfunc
+from Hofstad_model import hofstad_PA_start, hofstad_PA, hofstad_PA_start_b, hofstad_PA_b
 
 
-def choosePAmodel()
-
+def choosePAmodel():
     whichPA = int(input("Which PA model do you want to use? (0 | 1 | 2)\n"
                                "---- 0 : The PA model by Hofstad\n"
                                "---- 1 : The PA model with edge-step\n"
