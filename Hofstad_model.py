@@ -3,41 +3,6 @@ import time
 import numpy as np
 import visualisation
 
-def main():
-    '''
-    This function starts asking for input to the user in order to correctly run a
-    simulation of one of the Preferential Attachment models described by Remco Hofstad.
-    '''
-    which_model    = str(input('Which Hofstad model do you want to use? (a | b)\n'))
-    delta          = float(input('Enter the value of delta\n'))
-    m              = int(input('Enter the value of m\n'))
-    num_iterations = int(input('Enter the number of iterations, i.e. at what t to stop\n'))
-    verbosity      = int(input("How verbose do you want the simulation to be? (0 | 1 | 2)\n"
-                               "---- 0 : only show and save final graph\n"
-                               "---- 1 : show probability distribution and selected vertices per iteration\n"
-                               "---- 2 : show graph on each iteration (1.5 second breaks between iterations)\n"))
-
-    # Throw exceptions for incorrect input
-    if verbosity < 0 or verbosity > 2:
-        raise Exception("Enter a correct value for verbosity!")
-    if m < 0:
-        raise Exception("m should be greater than zero!")
-    if delta < -m:
-        raise Exception("delta should be greater or equal to m!\ndelta: " + str(delta) + "\nm: " + str(m))
-    if num_iterations < 2:
-        raise Exception("There should be at least two iterations!")
-
-    # Run the correct model
-    if which_model == "a":
-        G = hofstad_PA_start(m)
-        G = hofstad_PA(G, delta, m, t=1, t_stop=num_iterations, verbose=verbosity)
-    elif which_model == "b":
-        G = hofstad_PA_start_b(m)
-        G = hofstad_PA_b(G, delta, m, t=2, t_stop=num_iterations, verbose=verbosity)
-    else:
-        raise Exception("Enter a correct model version!")
-    visualisation.display_graph(G)
-
 
 def hofstad_PA_start(m=1):
     '''
@@ -163,7 +128,4 @@ def hofstad_PA_b(G, delta, m, t, t_stop=10, verbose=True):
     return G
 
 
-# To run this model, uncomment the following:
 
-# main()
-# visualisation.visualise_dot()

@@ -5,6 +5,7 @@ import networkx as nx
 import numpy as np
 
 
+
 def display_graph(G, save_file=r".\hofstad_PA.dot"):
     '''
     This function displays a graph G using the Kamada-Kawai layout. Plotly is used for visualisation, but it is possible
