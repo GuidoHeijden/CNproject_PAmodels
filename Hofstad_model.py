@@ -162,5 +162,8 @@ def hofstad_PA_b(G, delta, m, t, t_stop=10, verbose=True):
             time.sleep(1.5)
     return G
 
-main()
-visualisation.visualise_dot()
+
+# To run this model, uncomment the following:
+
+# main()
+# visualisation.visualise_dot()

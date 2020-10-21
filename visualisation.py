@@ -1,6 +1,8 @@
 import graphviz as gv
 import plotly.graph_objects as go
 import collections
+import networkx as nx
+import numpy as np
 
 
 def display_graph(G, save_file=r".\hofstad_PA.dot"):
