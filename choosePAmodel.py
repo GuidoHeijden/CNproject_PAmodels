@@ -44,7 +44,7 @@ def choosePAmodel():
             raise Exception("Enter a correct model version!")
 
     elif whichPA == 1:
-        p = float(input('Enter the value of probability of choosing an edge-step\n'))
+        p = float(input('Enter the value of probability of choosing an vertex-step\n'))
         if p <= 0 or p >= 1:
             raise Exception("Enter a correct value for p between 0 and 1!")
         G = hofstad_PA_start_b(m)
