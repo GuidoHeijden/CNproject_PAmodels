@@ -5,9 +5,10 @@ import numpy as np
 from Alves_RIbeiro_Sanchis_edge_vertex import PA_model2
 from Alves_Ribeiro_Sanchis_model import model_edgestepfunc, edgeStepFun1
 import matplotlib.pyplot as plt
+import seaborn as sns
 
 
-def distance_functions_example_using_hofstad(num_pairs, delta=0, m=3, num_iterations=40):
+def distance_functions_example_using_hofstad(num_pairs, delta=0, m=1, num_iterations=10000):
     '''
     This function generates a Hofstad model-a graph and then calculates:
     - The diameter of the graph
@@ -90,36 +91,67 @@ def get_typical_distances(num_pairs, dists, G):
 
 m = 1
 delta = 0
-num_iterations = 100
+num_iterations = 10000
+num_pairs = 25
 p = 2 - 3**0.5
 e_fun = edgeStepFun1
 experiments = 50
 diameter_over_time = []
+av_dist_over_time = []
+typical_distance_over_time = []
 
 for i in range(experiments):
     diameter_over_time.append([])
+    av_dist_over_time.append([])
+    typical_distance_over_time.append([])
     G = hm.hofstad_PA_start_b(m)
     diameter_over_time[i].append(get_diameter(G))
+    av_dist_over_time[i].append(get_average_distance(get_all_distances(G)))
+    #typical_distance_over_time[i].append(get_typical_distances(num_pairs, G))
     for t_step in range(3, num_iterations+1):
         # G = PA_model2(G, m, p, t=t_step-1, t_stop=t_step, verbose=0)
         # G = hm.hofstad_PA_b(G, delta=delta, m=m, t=t_step-1, t_stop=t_step, verbose=0)
         G = model_edgestepfunc(G, m, edgestepfun=e_fun, t=t_step - 1, t_stop=t_step, verbose=0)
         diameter_over_time[i].append(get_diameter(G))
+        av_dist_over_time[i].append(get_all_distances(G))
+        #typical_distance_over_time[i].append(get_typical_distances(num_pairs, dists=10, G))
+    print("Hello there")
+# fig, ax = plt.subplots()
+#
+# x = range(2, num_iterations+1)
+# for i in range(experiments):
+#     ax.plot(x, diameter_over_time[i], color='blue', alpha=0.2)
+#
+# diameter_average = []
+# for i in range(num_iterations-1):
+#     diameter_average.append(sum([diam[i] for diam in diameter_over_time]) / (experiments-1))
+#
+# ax.plot(x, diameter_average, color='red', alpha=1)
+# # fig.suptitle('Diameter over time PA model using Edge Step with p = 2-sqrt(3)', fontsize=12)
+# # fig.suptitle('Diameter over time PA model with delta=0', fontsize=12)
+# fig.suptitle('Diameter over time PA model using Edge Function f(t)=1 / t^1.01', fontsize=12)
+#
+#
+# plt.show()
 
 fig, ax = plt.subplots()
 
-x = range(2, num_iterations+1)
-for i in range(experiments):
-    ax.plot(x, diameter_over_time[i], color='blue', alpha=0.2)
-
-diameter_average = []
-for i in range(num_iterations-1):
-    diameter_average.append(sum([diam[i] for diam in diameter_over_time]) / (experiments-1))
-
-ax.plot(x, diameter_average, color='red', alpha=1)
-# fig.suptitle('Diameter over time PA model using Edge Step with p = 2-sqrt(3)', fontsize=12)
-# fig.suptitle('Diameter over time PA model with delta=0', fontsize=12)
-fig.suptitle('Diameter over time PA model using Edge Function f(t)=1 / t^1.01', fontsize=12)
-
-
+ax.hist(av_dist_over_time, binwidth = 5, color = 'blue', edgecolor = 'black')
+fig.suptitle('Average distance over time PA model using Edge Function f(t)=1 / t^1.01', fontsize=12)
 plt.show()
+
+# fig, ax = plt.subplots()
+#
+# x = range(2, num_iterations+1)
+# for i in range(experiments):
+#     ax.plot(x, typical_distance_over_time[i], color='blue', alpha=0.2)
+#
+# typical_distance_average = []
+# for i in range(num_iterations-1):
+#     typical_distance_average.append(sum([av[i] for av in typical_distance_over_time]) / (experiments-1))
+#
+# ax.plot(x, typical_distance_average, color='red', alpha=1)
+# # fig.suptitle('Diameter over time PA model using Edge Step with p = 2-sqrt(3)', fontsize=12)
+# # fig.suptitle('Diameter over time PA model with delta=0', fontsize=12)
+# fig.suptitle('Typical distance over time PA model using Edge Function f(t)=1 / t^1.01', fontsize=12)
+# plt.show()
