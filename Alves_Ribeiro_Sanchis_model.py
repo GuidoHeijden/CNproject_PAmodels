@@ -8,11 +8,11 @@ def edgeStepFun1(t):  # 1/linear function
     return 1 / (t ** 1.01)
 
 
-def edgeStepFun2(t):  # 1/log-squared function
+def edgeStepFun2(t):  # 1/log-squared function (base 2)
     return 1 / (np.log2(t)**2)
 
 
-def edgeStepFun3(t):  # 1/log-function
+def edgeStepFun3(t):  # 1/log-function (base 2)
     return 1 / np.log2(t)
 
 
