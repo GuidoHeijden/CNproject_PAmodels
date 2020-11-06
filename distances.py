@@ -3,7 +3,7 @@ import visualisation as vis
 import networkx as nx
 import numpy as np
 from Alves_RIbeiro_Sanchis_edge_vertex import PA_model2
-from Alves_Ribeiro_Sanchis_model import model_edgestepfunc, edgeStepFun1
+from Alves_Ribeiro_Sanchis_model import model_edgestepfunc, edgeStepFun1, edgeStepFun2, edgeStepFun3
 import matplotlib.pyplot as plt
 
 
@@ -86,25 +86,26 @@ def get_typical_distances(num_pairs, dists, G):
     return typical_distances
 
 
-# distance_functions_example_using_hofstad(num_pairs=5)
-
 m = 1
 delta = 0
 num_iterations = 100
 p = 2 - 3**0.5
-e_fun = edgeStepFun1
+e_fun = edgeStepFun3
 experiments = 50
 diameter_over_time = []
 
 for i in range(experiments):
+    print("Current experiment:", i)
     diameter_over_time.append([])
     G = hm.hofstad_PA_start_b(m)
     diameter_over_time[i].append(get_diameter(G))
     for t_step in range(3, num_iterations+1):
         # G = PA_model2(G, m, p, t=t_step-1, t_stop=t_step, verbose=0)
-        # G = hm.hofstad_PA_b(G, delta=delta, m=m, t=t_step-1, t_stop=t_step, verbose=0)
-        G = model_edgestepfunc(G, m, edgestepfun=e_fun, t=t_step - 1, t_stop=t_step, verbose=0)
+        G = hm.hofstad_PA_b(G, delta=delta, m=m, t=t_step-1, t_stop=t_step, verbose=0)
+        # G = model_edgestepfunc(G, m, edgestepfun=e_fun, t=t_step - 1, t_stop=t_step, verbose=0)
         diameter_over_time[i].append(get_diameter(G))
+vis.display_graph(G)
+vis.visualise_dot()
 
 fig, ax = plt.subplots()
 
@@ -115,6 +116,7 @@ for i in range(experiments):
 diameter_average = []
 for i in range(num_iterations-1):
     diameter_average.append(sum([diam[i] for diam in diameter_over_time]) / (experiments-1))
+
 
 ax.plot(x, diameter_average, color='red', alpha=1)
 # fig.suptitle('Diameter over time PA model using Edge Step with p = 2-sqrt(3)', fontsize=12)
