@@ -40,13 +40,13 @@ def hofstad_PA(G, delta, m, t, t_stop=10, verbose=0):
         for i in range(m):
             ProbDist = []
             for n in G.nodes():
-                ProbDist.append((G.degree(n) + delta) / (t * (2 * m + delta) + (m + delta + 2 * i)))
+                ProbDist.append((G.degree(n) + delta) / (t * (2 * m + delta) + (m + delta + i)))
             if i == 0:
                 ProbDist.append( (m + delta) / (t*(2*m + delta) + (m + delta)) )
                 G.add_node(t + 1)
             else:
                 ProbDist.pop()
-                ProbDist.append( (m + G.degree(n) + delta) / (t*(2*m + delta) + (m + delta + 2*i)) )
+                ProbDist.append( (m - i + G.degree(n) + delta) / (t*(2*m + delta) + (m + delta + i)) )
             second_node = np.random.choice(range(1, t+2), 1, ProbDist)[0]
             G.add_edge(t+1, second_node)
             ProbDists.append(ProbDist)

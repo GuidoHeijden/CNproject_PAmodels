@@ -1,6 +1,3 @@
-import networkx as nx
-import time
-import numpy as np
 import visualisation
 from Alves_RIbeiro_Sanchis_edge_vertex import PA_model2
 from Alves_Ribeiro_Sanchis_model import model_edgestepfunc, edgeStepFun1, edgeStepFun2, edgeStepFun3
@@ -8,6 +5,18 @@ from Hofstad_model import hofstad_PA_start, hofstad_PA, hofstad_PA_start_b, hofs
 
 
 def choosePAmodel():
+    '''
+    This function allows for user input to simulate one of the following models:
+    - Hofstad model A (see Hofstad_model.py)
+    - Hofstad model B (see Hofstad_model.py)
+    - Alves Ribereiro Sanchis - PA model with edge steps (see Alves_RIbeiro_Sanchis_edge_vertex.py)
+    - Alves Ribereiro Sanchis - PA model with edge-step function (see Alves_RIbeiro_Sanchis_model.py)
+    See the python files references behind each of the models above to view the implementation of each
+    model and a description.
+
+    :return:
+    '''
+
     whichPA = int(input("Which PA model do you want to use? (0 | 1 | 2)\n"
                                "---- 0 : The PA model by Hofstad\n"
                                "---- 1 : The PA model with edge-step\n"

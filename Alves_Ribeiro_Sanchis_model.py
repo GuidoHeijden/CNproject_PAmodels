@@ -18,16 +18,17 @@ def edgeStepFun3(t):  # 1/log-function (base 2)
 
 def model_edgestepfunc(G, m, edgestepfun, t, t_stop=10, verbose=0):
     '''
-    Recursively simulate a Preferential Attachment model using the Hofstad model as basis. A decision rule is added,
-    which decides whether we use a vertex-step or an edge-step. The vertex step adds a new vertex to G, selects another
-    vertex with probability P (= degree of u/sum of all degrees in G) and adds an edge between these vertices. The edge-
-    step selects two vertices from G with the same probability P for each vertex and adds an edge between these.
+    Recursively simulate a Preferential Attachment model using the Hofstad model as basis. An edge-step function
+    dependent on t decides whether a vertex-step or an edge-step is taken. The vertex step adds a new vertex to G,
+    selects another vertex with probability P (= degree of u/sum of all degrees in G) and adds an edge between these
+    vertices. The edge-step selects two vertices from G with the same probability P for each vertex and adds an edge
+    between these.
 
-    :param G:       The Graph that is used for simulating Hofstad's model
-    :param m:       Number of edges that are attached to a new vertex
-    :param p:       Bernouilli probability
-    :param t_stop:  The timestep after which to stop the simulation
-    :param verbose: Whether to print a verbose output of the simulation, including visualising graph G
+    :param G:           The Graph that is used for simulating Hofstad's model
+    :param m:           Number of edges that are attached to a new vertex
+    :param edgestepfun: Edge-step function that defines probability of vertex step
+    :param t_stop:      The timestep after which to stop the simulation
+    :param verbose:     Whether to print a verbose output of the simulation, including visualising graph G
     :return:
     '''
 

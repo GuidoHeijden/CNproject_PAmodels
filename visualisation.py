@@ -5,7 +5,6 @@ import networkx as nx
 import numpy as np
 
 
-
 def display_graph(G, save_file=r".\hofstad_PA.dot"):
     '''
     This function displays a graph G using the Kamada-Kawai layout. Plotly is used for visualisation, but it is possible
@@ -149,7 +148,7 @@ def display_graph(G, save_file=r".\hofstad_PA.dot"):
     # Create graph figure without self_loops
     fig = go.Figure(data=[edge_trace, self_loops_trace, node_trace, arched_edge_trace],
                     layout=go.Layout(
-                        title='<br>Hofstad graph',
+                        title='<br>Graph',
                         titlefont_size=16,
                         showlegend=False,
                         hovermode='closest',
